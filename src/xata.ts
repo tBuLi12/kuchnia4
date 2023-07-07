@@ -11,7 +11,7 @@ const tables = [
     name: "users",
     columns: [
       { name: "email", type: "email", unique: true },
-      { name: "name", type: "string" },
+      { name: "passhash", type: "string" },
     ],
   },
 ] as const;
