@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let name: string;
-	export let marked: boolean;
+	export let marked = false;
 </script>
 
 <div
