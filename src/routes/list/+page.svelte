@@ -1,39 +1,5 @@
-<script lang="ts">
-	import EditList from './EditList.svelte';
-	import ShoppingList from './ShoppingList.svelte';
-	let edit = false;
+<script>
+	import ListView from './ListView.svelte';
 </script>
 
-<div class="pt-2 basis-0 flex flex-col grow justify-between">
-	{#if edit}
-		<EditList />
-	{:else}
-		<ShoppingList />
-	{/if}
-	<div class="flex p-6 justify-end pr-8">
-		<div
-			class="flex items-strech w-44 justify-center border border-amber-600 rounded-xl h-12 overflow-hidden"
-		>
-			<div
-				on:click={() => (edit = false)}
-				class="flex cursor-pointer items-center justify-center w-1/2  border-r border-amber-600 {edit
-					? ''
-					: 'bg-amber-600 text-zinc-900'}"
-			>
-				Shop
-			</div>
-			<div
-				on:click={() => (edit = true)}
-				class="flex cursor-pointer items-center justify-center w-1/2  {edit
-					? 'bg-amber-600 text-zinc-900'
-					: ''}"
-			>
-				Edit
-			</div>
-		</div>
-		<!-- <button
-			class="flex items-center justify-center text-zinc-800 rounded-full text-4xl bg-amber-500 w-12 h-12"
-			>+</button -->
-		<!-- > -->
-	</div>
-</div>
+<ListView />

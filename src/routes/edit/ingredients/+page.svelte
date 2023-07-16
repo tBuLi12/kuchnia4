@@ -1,4 +1,5 @@
 <script>
+	import TagList from 'src/components/TagList.svelte';
 	import List from '../../list/EditList.svelte';
 
 	let tags = [
@@ -10,18 +11,7 @@
 </script>
 
 <div class="flex justify-center items-center p-2 text-2xl">Tags</div>
-<div class="px-4 pb-3 flex flex-wrap">
-	{#each tags as tag}
-		<button
-			class="rounded-full border text-lg m-1 px-3 {tag.selected
-				? 'bg-amber-500 border-transparent text-zinc-800'
-				: 'border-yellow-800 text-yellow-600'}"
-			on:click={() => (tag.selected = !tag.selected)}
-		>
-			{tag.name}
-		</button>
-	{/each}
-</div>
+<TagList {tags} />
 <div class="flex justify-center items-center p-2 text-2xl border-t border-zinc-600">
 	Ingredients
 </div>

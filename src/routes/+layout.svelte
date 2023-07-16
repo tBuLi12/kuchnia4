@@ -2,7 +2,10 @@
 	import { page } from '$app/stores';
 	import '../app.css';
 	import profile from '../assets/profile.svg';
-	import envelope from '../assets/envelope.png';
+	import envelope from '../assets/envelope.svg';
+	import pen from '../assets/pen.svg';
+	import muffin from '../assets/muffin.svg';
+	import list from '../assets/list.svg';
 </script>
 
 <div class="flex flex-col h-screen items-stretch font-nunito text-amber-500 text-xl">
@@ -19,23 +22,35 @@
 		<slot />
 	</div>
 	<div
-		class="h-20 flex justify-around px-2 items-center bg-neutral-900 shadow-[0_0_10px_rgba(0,0,0,0.6)]"
+		class="h-20 flex justify-around px-2 items-center bg-neutral-900 shadow-[0_0_10px_rgba(0,0,0,0.6)] lg:hidden"
 	>
 		<div class="flex flex-col items-center text-amber-500 text-sm">
-			<a href="/" class="bg-muffin bg-center bg-contain w-9 h-9" />
+			<a
+				href="/home"
+				class="bg-center bg-contain bg-no-repeat w-8 h-8 m-1"
+				style="background-image: url({muffin});"
+			/>
 			<span class="pt-1">Cook</span>
 		</div>
 		<div class="flex flex-col items-center text-amber-500 text-sm">
-			<a href="/list" class="bg-heart bg-center bg-contain w-8 h-8 m-1" />
-			<span class="pt-1">Liked</span>
-		</div>
-		<div class="flex flex-col items-center text-amber-500 text-sm">
-			<a href="/edit" class="bg-pen bg-center bg-contain bg-no-repeat w-8 h-8 m-1" />
-			<span class="pt-1">Add</span>
+			<a
+				href="/list"
+				class="bg-center bg-contain bg-no-repeat w-8 h-8 m-1"
+				style="background-image: url({list});"
+			/>
+			<span class="pt-1">List</span>
 		</div>
 		<div class="flex flex-col items-center text-amber-500 text-sm">
 			<a
-				href="/edit"
+				href="/edit/header"
+				class="bg-center bg-contain bg-no-repeat w-8 h-8 m-1"
+				style="background-image: url({pen});"
+			/>
+			<span class="pt-1">Create</span>
+		</div>
+		<div class="flex flex-col items-center text-amber-500 text-sm">
+			<a
+				href="/shared"
 				class="bg-center bg-contain bg-no-repeat w-8 h-8 m-1"
 				style="background-image: url({envelope});"
 			/>

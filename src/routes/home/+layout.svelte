@@ -2,18 +2,39 @@
 	import { goto } from '$app/navigation';
 	import DishGridItem from '../../components/DishGridItem.svelte';
 	import search from '../../assets/search.svg';
+	import TagList from '../../components/TagList.svelte';
+	import ListView from '../list/ListView.svelte';
+
+	let tagsVisible = false;
+
+	let tags = [
+		{ name: 'fast', selected: false },
+		{ name: 'dinner', selected: false },
+		{ name: 'dinner', selected: false },
+		{ name: 'dinner', selected: false }
+	];
 </script>
 
-<div class="flex flex-col">
-	<div class="p-3 flex h-14 items-center justify-end gap-1">
-		<input placeholder="Search" class="input grow" />
-		<img src={search} class="h-5 px-2" />
-		<span class="border-l border-zinc-600 px-3">#</span>
+<div class="grid grid-cols-1 lg:grid-cols-2 h-full lg:pb-10">
+	<div class="flex flex-col lg:pr-2">
+		<div class="p-3 flex h-14 items-center justify-end gap-1">
+			<input placeholder="Search" class="input grow" />
+			<button style="background-image: url({search})" class="h-5 w-5 mx-2 bg-cover bg-center" />
+			<button on:click={() => (tagsVisible = !tagsVisible)} class="border-l border-zinc-600 px-3"
+				>#</button
+			>
+		</div>
+		{#if tagsVisible}
+			<TagList {tags} />
+		{/if}
+		<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-3">
+			{#each ['/morechicken.png', '/chicken.png', '/spaghetti.png', '/morechicken.png', '/chicken.png', 'spaghetti.png'] as image, i}
+				<DishGridItem {image} on:click={() => goto(`/home/${i}`)} />
+			{/each}
+			<slot />
+		</div>
 	</div>
-	<div class="grid grid-cols-2 gap-4 px-3">
-		{#each ['/morechicken.png', '/chicken.png', '/spaghetti.png', '/morechicken.png', '/chicken.png', 'spaghetti.png'] as image, i}
-			<DishGridItem {image} on:click={() => goto(`/home/${i}`)} />
-		{/each}
-		<slot />
+	<div class="hidden lg:block pl-2 border-l border-zinc-600">
+		<ListView />
 	</div>
 </div>
