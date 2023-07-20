@@ -1,5 +1,5 @@
 <script>
-	import TagList from 'src/components/TagList.svelte';
+	import TagList from '../../../components/TagList.svelte';
 	import List from '../../list/EditList.svelte';
 
 	let tags = [
