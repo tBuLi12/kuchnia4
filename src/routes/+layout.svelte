@@ -9,7 +9,7 @@
 </script>
 
 <div class="flex flex-col h-screen items-stretch font-nunito text-amber-500 bg-neutral-900 text-xl">
-	<div class="flex flex-col grow basis-0 overflow-auto max-w-5xl mx-auto w-full">
+	<div class="flex flex-col grow basis-0 overflow-auto max-w-5xl mx-auto items-stretch w-full">
 		{#if $page.route.id !== '/recipe/[slug]'}
 			<div class="flex items-centers mt-4 px-2 justify-between">
 				<div class="flex items-center gap-2">

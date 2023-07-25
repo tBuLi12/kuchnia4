@@ -1,3 +1,11 @@
+<script lang="ts">
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+
+	let recipe: Omit<Recipe, 'lastMade'> = data.recipe;
+</script>
+
 <div class="flex flex-col p-4 gap-4 grow lg:flex-row">
 	<div class="flex flex-col gap-4  grow">
 		<span class="text-zinc-300 -mb-2">Name</span>

@@ -1,24 +1,22 @@
 <script lang="ts">
 	import ListItem from '../../components/ListItem.svelte';
+	import type { Ingredient } from '../../lib/repository';
 	import { shrink } from '../../utils/transitions';
 
-	let items = [
-		{ name: 'śmietana', marked: false },
-		{ name: 'papier', marked: false },
-		{ name: 'papryka', marked: false },
-		{ name: 'imbir', marked: false }
-	];
+	export let items: Ingredient[];
+
+	let marked = new Set<string>();
 </script>
 
 <div>
-	{#each items.filter((item) => !item.marked) as item, i (item.name)}
+	{#each items.filter((item) => !marked.has(item.name)) as item (item.name)}
 		<div class="content overflow-hidden flex flex-col-reverse" transition:shrink|local>
-			<ListItem name={item.name} on:click={() => (item.marked = !item.marked)} />
+			<ListItem name={item.name} on:click={() => marked.add(item.name)} />
 		</div>
 	{/each}
-	{#each items.filter((item) => item.marked) as item (item.name)}
+	{#each items.filter((item) => marked.has(item.name)) as item (item.name)}
 		<div class="content overflow-hidden flex flex-col-reverse" transition:shrink|local>
-			<ListItem name={item.name} on:click={() => (item.marked = !item.marked)} marked />
+			<ListItem name={item.name} on:click={() => marked.delete(item.name)} marked />
 		</div>
 	{/each}
 </div>

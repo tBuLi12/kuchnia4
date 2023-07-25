@@ -2,8 +2,9 @@
 	import { fly } from 'svelte/transition';
 	import clock from '../assets/clock.svg';
 	import arrow from '../assets/arrow_orange.svg';
+	import type { Recipe } from '$lib/drizzle';
 
-	export let image: string;
+	export let recipe: Recipe;
 </script>
 
 <div
@@ -33,7 +34,7 @@
 		<!-- <div class="border-t border-zinc-600" /> -->
 	</div>
 	<img
-		src={image}
+		src={recipe.image}
 		class="w-full -mb-8 lg:mb-0 min-w-0 bg-img object-cover object-center basis-0 grow min-h-0 lg:rounded-xl"
 	/>
 </div>

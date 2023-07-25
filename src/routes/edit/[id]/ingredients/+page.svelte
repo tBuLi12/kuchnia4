@@ -1,6 +1,6 @@
 <script>
-	import TagList from '../../../components/TagList.svelte';
-	import List from '../../list/EditList.svelte';
+	import TagList from '../../../../components/TagList.svelte';
+	import List from '../../../list/EditList.svelte';
 
 	let tags = [
 		{ name: 'fast', selected: false },

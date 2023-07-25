@@ -3,8 +3,10 @@
 	import ListItem from '../../components/ListItem.svelte';
 	import EditListItem from '../../components/EditListItem.svelte';
 	import { shrink } from '../../utils/transitions';
+	import type { Ingredient } from '../../lib/repository';
 
 	export let edit = true;
+	export let items: Ingredient[];
 
 	let editedItem: number | null = null;
 
@@ -17,15 +19,31 @@
 	}
 
 	let nameToAdd = '';
-	let items = [
-		{ name: 'śmietana', marked: false },
-		{ name: 'papier', marked: false },
-		{ name: 'papryka', marked: false },
-		{ name: 'imbir', marked: false }
-	];
+
+	function parseIngredient(text: string): Ingredient | undefined {
+		const pattern = /^(?<name>[A-Za-z])+\s*((?<amount>\d+)\s*((?<unit>[A-Za-z]+)\s*)?)?$/;
+		const match = text.match(pattern);
+		if (!match) {
+			return;
+		}
+
+		if (match.groups) {
+			return {
+				name: match.groups['name'],
+				unit: match.groups['amount'] ?? null,
+				quantity: parseInt(match.groups['quantity']) ?? 1
+			};
+		}
+	}
+
+	$: currentIngredient = parseIngredient(nameToAdd);
 
 	function addItem(_: any) {
-		items.push({ name: nameToAdd, marked: false });
+		if (!currentIngredient) {
+			return;
+		}
+
+		items.push(currentIngredient);
 		items = items;
 		nameToAdd = '';
 	}
@@ -51,6 +69,10 @@
 	{/each}
 	<div class="flex mx-6 px-1 my-1 gap-2 items-center h-14">
 		<input bind:value={nameToAdd} on:keydown={enter(addItem)} class="input min-w-0 pl-2  h-10" />
-		<button on:click={addItem} class="bg-amber-500 text-zinc-800 h-10 px-2 rounded-md">Add</button>
+		<button
+			on:click={addItem}
+			disabled={!currentIngredient}
+			class="bg-amber-500 text-zinc-800 h-10 px-2 rounded-md">Add</button
+		>
 	</div>
 </div>

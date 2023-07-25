@@ -1,11 +1,13 @@
 <script lang="ts">
-	export let image: string;
+	import type { Recipe, TimeTracked } from '../lib/repository';
+
+	export let recipe: Recipe & TimeTracked;
 </script>
 
 <div class="flex flex-col" on:click>
-	<img src={image} class="rounded-[24px] shadow-md" />
+	<img src={recipe.image} class="rounded-[24px] shadow-md" />
 	<div class="flex flex-col pl-2">
-		<span>Le Chicken</span>
-		<span class="text-sm text-zinc-500">30/12/2023</span>
+		<span>{recipe.name}</span>
+		<span class="text-sm text-zinc-500">{recipe.lastMade ?? '-'}</span>
 	</div>
 </div>

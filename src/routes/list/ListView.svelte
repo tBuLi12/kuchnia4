@@ -1,14 +1,17 @@
 <script lang="ts">
+	import type { Ingredient } from '../../lib/repository';
 	import EditList from './EditList.svelte';
 	import ShoppingList from './ShoppingList.svelte';
 	let edit = false;
+
+	export let list: Ingredient[];
 </script>
 
 <div class="pt-2 basis-0 flex flex-col grow justify-between">
 	{#if edit}
-		<EditList />
+		<EditList bind:items={list} />
 	{:else}
-		<ShoppingList />
+		<ShoppingList items={list} />
 	{/if}
 	<div class="flex p-6 justify-end pr-8">
 		<div

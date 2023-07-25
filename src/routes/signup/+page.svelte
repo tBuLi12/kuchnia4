@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { users } from '$lib/schema';
 	import type { PageData } from './$types';
-	import ListView from './ListView.svelte';
 
 	export let data: PageData;
 </script>
 
-<ListView list={data.list} />
+<div class="font-mono">
+	{data.data}
+</div>

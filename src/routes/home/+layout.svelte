@@ -3,7 +3,9 @@
 	import DishGridItem from '../../components/DishGridItem.svelte';
 	import search from '../../assets/search.svg';
 	import TagList from '../../components/TagList.svelte';
-	import ListView from '../list/ListView.svelte';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
 
 	let tagsVisible = false;
 
@@ -29,8 +31,8 @@
 	<div
 		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-3 basis-0 grow overflow-auto"
 	>
-		{#each ['/morechicken.png', '/chicken.png', '/spaghetti.png', '/morechicken.png', '/chicken.png', 'spaghetti.png', '/morechicken.png', '/chicken.png', '/spaghetti.png', '/morechicken.png', '/chicken.png', 'spaghetti.png', '/morechicken.png', '/chicken.png', '/spaghetti.png', '/morechicken.png', '/chicken.png', 'spaghetti.png'] as image, i}
-			<DishGridItem {image} on:click={() => goto(`/home/${i}`)} />
+		{#each data.recipes as recipe, i}
+			<DishGridItem {recipe} on:click={() => goto(`/home/${i}`)} />
 		{/each}
 	</div>
 	<slot />
