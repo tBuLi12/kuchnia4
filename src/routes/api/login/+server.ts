@@ -1,7 +1,7 @@
 import { JWT_SECRET } from '$env/static/private';
 import { getPasswordHashAndId } from '$lib/repository.server';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { enc, PBKDF2 } from 'crypto-js';
+import crypto from 'crypto-js';
 import { SignJWT } from 'jose';
 import { z } from 'zod';
 
@@ -26,7 +26,7 @@ export const POST = (async ({ request, cookies }) => {
 
 	const { hash, userId } = userData;
 
-	const checkedHash = PBKDF2(credentials.password, enc.Hex.parse(hash.slice(0, 64)), {
+	const checkedHash = crypto.PBKDF2(credentials.password, crypto.enc.Hex.parse(hash.slice(0, 64)), {
 		keySize: 8
 	});
 	if (checkedHash.toString() !== hash.slice(64, 128)) {

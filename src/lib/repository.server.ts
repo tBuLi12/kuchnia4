@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { db } from './db.server';
-import { PBKDF2, lib as crypto } from 'crypto-js';
+import crypto from 'crypto-js';
 
 export interface Recipe {
 	id: number;
@@ -363,8 +363,8 @@ export async function rejectShare(user_id: number, recipe_id: number): Promise<v
 }
 
 export async function registerUser(email: string, password: string): Promise<void> {
-	const salt = crypto.WordArray.random(32);
-	const key = PBKDF2(password, salt, { keySize: 8 });
+	const salt = crypto.lib.WordArray.random(32);
+	const key = crypto.PBKDF2(password, salt, { keySize: 8 });
 	const keyString = key.toString();
 	const saltString = salt.toString();
 	if (keyString.length != 64 || saltString.length != 64) {
