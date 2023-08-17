@@ -11,6 +11,6 @@ import type { LayoutLoad } from './$types';
 
 export const load = (async ({ url, fetch }) => {
 	return {
-		recipes: use<(Recipe & TimeTracked)[]>(fetch, `/api/home?${url.searchParams.toString()}`)
+		recipes: use<(Recipe & TimeTracked)[]>(fetch, `/home?${url.searchParams.toString()}`)
 	};
 }) satisfies LayoutLoad;
