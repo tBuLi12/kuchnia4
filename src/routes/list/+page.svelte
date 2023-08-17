@@ -1,8 +1,0 @@
-<script lang="ts">
-	import type { PageData } from './$types';
-	import ListView from './ListView.svelte';
-
-	export let data: PageData;
-</script>
-
-<ListView list={data.list} />

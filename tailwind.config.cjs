@@ -16,7 +16,14 @@ module.exports = {
 				icon: '0 0 12px rgb(235 148 30) 0 0 10px rgb(0 0 0)'
 			},
 			boxShadow: {
-				'main-img': 'inset 0 4px 2px -2px rgb(5 5 5), inset 0 -4px 4px -2px rgb(5 5 5 / 0.7);'
+				'main-img': `
+					inset 0 4px 2px -2px rgb(5 5 5),
+					inset 0 -4px 4px -2px rgb(5 5 5 / 0.7);
+				`,
+				'preview-img': `
+					inset 0 4px 2px -2px rgb(5 5 5),
+					inset 0 -4px 4px -2px rgb(5 5 5 / 0.7);
+				`
 			}
 		}
 	},
