@@ -3,10 +3,10 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "cross-env VITE_SK_ADAPTER=vercel vite dev",
 		"devhost": "vite dev --host",
-		"build": "cross-env ADAPTER=vercel vite build",
-		"build:static": "cross-env ADAPTER=static vite build",
+		"build": "cross-env VITE_SK_ADAPTER=vercel vite build",
+		"build:static": "cross-env VITE_SK_ADAPTER=static vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@capacitor-community/http": "^1.4.1",
 		"@capacitor/android": "^5.2.3",
 		"@capacitor/cli": "^5.2.3",
 		"@capacitor/core": "^5.2.3",

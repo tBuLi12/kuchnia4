@@ -16,7 +16,7 @@ export const POST = (async (event) => {
 	try {
 		data = JSON.parse(text);
 	} catch (e) {
-		throw `not json: ${text}`;
+		throw `not json: ${text} ${JSON.stringify(request.headers)}`;
 	}
 
 	const result = postLogin.safeParse(data);

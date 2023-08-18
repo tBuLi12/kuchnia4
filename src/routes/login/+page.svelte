@@ -25,6 +25,7 @@
 <div class="text-amber-500 text-3xl my-12 gap-4 flex flex-col items-center">
 	<img src={muffin} class="w-14" />
 	Log into the kitchen
+	{import.meta.env.VITE_SK_ADAPTER}
 </div>
 <form
 	class="flex flex-col items-center h-full gap-4 max-w-xs mx-auto"
