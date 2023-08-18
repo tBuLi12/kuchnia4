@@ -2,11 +2,11 @@ import { getPasswordHashAndId } from '$lib/repository.server';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import crypto from 'crypto-js';
 import { z } from 'zod';
-import { Capacitor } from '@capacitor/core';
 
 const postLogin = z.strictObject({
 	email: z.string(),
-	password: z.string()
+	password: z.string(),
+	client: z.string()
 });
 
 export const POST = (async (event) => {
@@ -43,7 +43,7 @@ export const POST = (async (event) => {
 
 	const secret = new TextEncoder().encode(JWT_SECRET);
 
-	const jwt = await new SignJWT({ client: Capacitor.isNativePlatform() ? 'mobile' : 'web' })
+	const jwt = await new SignJWT({ client: credentials.client })
 		.setSubject(userId.toString())
 		.setProtectedHeader({ alg: 'HS256' })
 		.setExpirationTime('1h')

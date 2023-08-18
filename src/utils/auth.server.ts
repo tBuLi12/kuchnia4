@@ -17,7 +17,11 @@ export async function auth({ cookies, request, url }: RequestEvent): Promise<num
 			request.headers.get('origin') !== url.origin;
 
 		if (forbidden) {
-			throw error(403, { message: 'cross site form submissions are forbidden' });
+			throw error(403, {
+				message: `cross site form submissions are forbidden ${payload.client} ${
+					request.method !== 'GET'
+				} ${request.method !== 'HEAD'} ${request.headers.get('origin') !== url.origin}`
+			});
 		}
 
 		return parseInt(payload.sub!);

@@ -5,11 +5,10 @@ const prefix = 'https://kuchnia4-git-dev-tbuli1112-gmailcom.vercel.app';
 
 export async function post(path: string, data: any): Promise<boolean> {
 	if (import.meta.env.VITE_SK_ADAPTER === 'static') {
-		const response = await CapacitorHttp.request({
-			method: 'POST',
+		const response = await CapacitorHttp.post({
 			url: `${prefix}/api${path}`,
 			data,
-			headers: { Accept: 'application/json', 'Conent-Type': 'application/json' }
+			headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
 		});
 		console.log('data: ', JSON.stringify(response.data).slice(0, 200));
 		return response.status === 200;
@@ -18,7 +17,7 @@ export async function post(path: string, data: any): Promise<boolean> {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {
-				'Conent-Type': 'application/json',
+				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			}
 		});
@@ -31,7 +30,7 @@ export async function _delete(path: string, data: any): Promise<boolean> {
 		const response = await CapacitorHttp.delete({
 			url: `${prefix}/api${path}`,
 			data,
-			headers: { Accept: 'application/json' }
+			headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
 		});
 
 		return response.status === 200;
@@ -40,7 +39,7 @@ export async function _delete(path: string, data: any): Promise<boolean> {
 			method: 'DELETE',
 			body: JSON.stringify(data),
 			headers: {
-				'Conent-Type': 'application/json',
+				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			}
 		});
