@@ -8,14 +8,15 @@ const postShareAction = z.strictObject({
 	recipe: z.number()
 });
 
-export const POST = (async ({ cookies, request }) => {
+export const POST = (async (event) => {
+	const { request, cookies } = event;
 	const result = postShareAction.safeParse(await request.json());
 	if (!result.success) {
 		throw error(400, 'invalid shape');
 	}
 	const shareAction = result.data;
 
-	const user = await auth(cookies);
+	const user = await auth(event);
 
 	if (shareAction.wasAccepted) {
 		await acceptShare(user, shareAction.recipe);
@@ -26,7 +27,7 @@ export const POST = (async ({ cookies, request }) => {
 	return json({});
 }) satisfies RequestHandler;
 
-export const GET = (async ({ cookies }) => {
-	const user = await auth(cookies);
+export const GET = (async (event) => {
+	const user = await auth(event);
 	return json(await getSharedRecipes(user));
 }) satisfies RequestHandler;

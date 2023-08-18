@@ -7,11 +7,11 @@ import {
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { auth } from '../../../utils/auth.server';
 
-export const GET = (async ({ cookies, url }) => {
-	const search = url.searchParams.get('q');
-	const tags = url.searchParams.get('tags')?.split(',') ?? null;
+export const GET = (async (event) => {
+	const search = event.url.searchParams.get('q');
+	const tags = event.url.searchParams.get('tags')?.split(',') ?? null;
 
-	const user = await auth(cookies);
+	const user = await auth(event);
 
 	if (search) {
 		if (tags) {

@@ -14,35 +14,35 @@ const postAddIngredients = z.array(
 
 const postRemoveIngredients = z.array(z.string());
 
-export const POST = (async ({ request, cookies }) => {
-	const result = postAddIngredients.safeParse(await request.json());
+export const POST = (async (event) => {
+	const result = postAddIngredients.safeParse(await event.request.json());
 	if (!result.success) {
 		throw error(400, 'invalid shape');
 	}
 	const ingredients = result.data;
 
-	const user = await auth(cookies);
+	const user = await auth(event);
 
 	await addListItems(user, ingredients);
 
 	return json({});
 }) satisfies RequestHandler;
 
-export const DELETE = (async ({ request, cookies }) => {
-	const result = postRemoveIngredients.safeParse(await request.json());
+export const DELETE = (async (event) => {
+	const result = postRemoveIngredients.safeParse(await event.request.json());
 	if (!result.success) {
 		throw error(400, 'invalid shape');
 	}
 	const ingredients = result.data;
 
-	const user = await auth(cookies);
+	const user = await auth(event);
 
 	await removeListItems(user, ingredients);
 
 	return json({});
 }) satisfies RequestHandler;
 
-export const GET = (async ({ cookies }) => {
-	const user = await auth(cookies);
+export const GET = (async (event) => {
+	const user = await auth(event);
 	return json(await getUsersListItems(user));
 }) satisfies RequestHandler;

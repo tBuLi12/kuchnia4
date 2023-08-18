@@ -4,13 +4,15 @@ import { error, json, type RequestHandler } from '@sveltejs/kit';
 import crypto from 'crypto-js';
 import { SignJWT } from 'jose';
 import { z } from 'zod';
+import { Capacitor } from '@capacitor/core';
 
 const postLogin = z.strictObject({
 	email: z.string(),
 	password: z.string()
 });
 
-export const POST = (async ({ request, cookies }) => {
+export const POST = (async (event) => {
+	const { request, cookies } = event;
 	const result = postLogin.safeParse(await request.json());
 	if (!result.success) {
 		console.log('invalid shape', result.error);
@@ -35,7 +37,7 @@ export const POST = (async ({ request, cookies }) => {
 
 	const secret = new TextEncoder().encode(JWT_SECRET);
 
-	const jwt = await new SignJWT({})
+	const jwt = await new SignJWT({ client: Capacitor.isNativePlatform() ? 'mobile' : 'web' })
 		.setSubject(userId.toString())
 		.setProtectedHeader({ alg: 'HS256' })
 		.setExpirationTime('1h')

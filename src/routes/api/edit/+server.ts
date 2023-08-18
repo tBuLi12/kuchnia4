@@ -25,7 +25,7 @@ const postRecipe = z.strictObject({
 	)
 });
 
-export const POST = (async ({ request, cookies }) => {
+export const POST = (async (event) => {
 	const result = postRecipe.safeParse(await request.json());
 	if (!result.success) {
 		console.log('invalid shape', result.error);
