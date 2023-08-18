@@ -33,5 +33,8 @@ export async function use<T>(
 	if (response.ok) {
 		return await response.json();
 	}
+	if (response.redirected) {
+		throw redirect(response.status as any, response.headers.get('Location') as any);
+	}
 	throw error(response.status, await response.text());
 }
