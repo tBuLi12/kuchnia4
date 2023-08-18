@@ -33,4 +33,7 @@
 	<Input class="h-12" placeholder="Email" bind:value={email} />
 	<Input class="h-12" placeholder="Password" type="password" bind:value={password} />
 	<Button type="submit" class="self-end">Log in</Button>
+	{#if invalidCredentials}
+		invalid credentials
+	{/if}
 </form>
