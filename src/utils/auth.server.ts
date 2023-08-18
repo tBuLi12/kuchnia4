@@ -22,6 +22,7 @@ export async function auth({ cookies, request, url }: RequestEvent): Promise<num
 
 		return parseInt(payload.sub!);
 	} catch (e) {
+		console.error(e);
 		throw error(401, { message: 'not logged in' });
 	}
 }
