@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: 'nunito';
+	src: url(./assets/Nunito-VariableFont_wght.ttf);
+}
+
+@layer components {
+	.input {
+		@apply bg-transparent border min-w-0 pl-2 border-amber-600 outline-none focus:border-amber-500 rounded-md placeholder:text-zinc-500
+	}
+}
