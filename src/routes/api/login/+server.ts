@@ -1,8 +1,6 @@
-import { JWT_SECRET } from '$env/static/private';
 import { getPasswordHashAndId } from '$lib/repository.server';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import crypto from 'crypto-js';
-import { SignJWT } from 'jose';
 import { z } from 'zod';
 import { Capacitor } from '@capacitor/core';
 
@@ -16,7 +14,7 @@ export const POST = (async (event) => {
 	const text = await request.text();
 	let data;
 	try {
-		data = JSON.stringify(text);
+		data = JSON.parse(text);
 	} catch (e) {
 		throw `not json: ${text}`;
 	}
