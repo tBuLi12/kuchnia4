@@ -1,10 +1,10 @@
 import { error, redirect } from '@sveltejs/kit';
-import { CapacitorHttp, Capacitor } from '@capacitor/core';
+import { CapacitorHttp } from '@capacitor/core';
 
 const prefix = 'https://kuchnia4.vercel.app';
 
 export async function post(path: string, data: any): Promise<boolean> {
-	if (Capacitor.isNativePlatform()) {
+	if (import.meta.env.ADAPTER === 'static') {
 		const response = await CapacitorHttp.post({
 			url: `${prefix}/api${path}`,
 			data,
@@ -25,7 +25,7 @@ export async function post(path: string, data: any): Promise<boolean> {
 }
 
 export async function _delete(path: string, data: any): Promise<boolean> {
-	if (Capacitor.isNativePlatform()) {
+	if (import.meta.env.ADAPTER === 'static') {
 		const response = await CapacitorHttp.delete({
 			url: `${prefix}/api${path}`,
 			data,
@@ -50,7 +50,7 @@ export async function use<T>(
 	fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>,
 	path: RequestInfo | URL
 ): Promise<T> {
-	if (Capacitor.isNativePlatform()) {
+	if (import.meta.env.ADAPTER === 'static') {
 		const response = await CapacitorHttp.get({
 			url: `${prefix}/api${path}`,
 			headers: { Accept: 'application/json' }
