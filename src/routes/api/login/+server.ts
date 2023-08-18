@@ -13,7 +13,15 @@ const postLogin = z.strictObject({
 
 export const POST = (async (event) => {
 	const { request, cookies } = event;
-	const result = postLogin.safeParse(await request.json());
+	const text = await request.text();
+	let data;
+	try {
+		data = JSON.stringify(text);
+	} catch (e) {
+		throw `not json: ${text}`;
+	}
+
+	const result = postLogin.safeParse(data);
 	if (!result.success) {
 		console.log('invalid shape', result.error);
 		throw error(400, 'invalid shape');
