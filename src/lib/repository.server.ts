@@ -12,7 +12,7 @@ export interface Recipe {
 }
 
 export interface TimeTracked {
-	lastMade: Date | null;
+	lastMade: string | null;
 }
 
 export interface Ingredient {

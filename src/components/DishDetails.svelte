@@ -13,14 +13,14 @@
 		class="w-full z-10 flex flex-col px-6 bg-neutral-900 lg:bg-transparent lg:w-1/2 rounded-t-3xl lg:rounded-none"
 	>
 		<div class="flex gap-1 items-center px-1 mt-4 mb-2 pb-2 text-2xl border-b border-zinc-600">
-			Le Chicken
-			<img src={clock} class="ml-auto w-5" /> <span class="text-xl">1.5h</span>
+			{recipe.name}
+			<img src={clock} class="ml-auto w-5" /> <span class="text-xl">?</span>
 		</div>
 		<div class="px-1 text-zinc-300 max-h-48 overflow-auto">
-			chicken thighs coocked in smoky rub and maple sirup chicken thighs coocked in smoky rub and
+			{recipe.description}
 		</div>
 		<div class="flex flex-wrap my-2 mb-4 items-end lg:mt-auto">
-			{#each ['fast', 'dinner', 'dinner', 'dinner', 'dinner'] as tag}
+			{#each recipe.tags as tag}
 				<div class="border border-yellow-800 rounded-full text-lg m-1 px-3 text-yellow-600">
 					{tag}
 				</div>
@@ -29,7 +29,6 @@
 				><img src={arrow} /></a
 			>
 		</div>
-		<!-- <div class="border-t border-zinc-600" /> -->
 	</div>
 	<img
 		src={recipe.image}

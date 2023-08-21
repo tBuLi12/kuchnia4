@@ -13,7 +13,7 @@
 	type EditedRecipe = Omit<Recipe, 'id'> & Ingredients & { id?: number };
 
 	function isNotEmpty(recipe: EditedRecipe): boolean {
-		return !(
+		return !!(
 			recipe.body.length ||
 			recipe.name ||
 			recipe.description ||

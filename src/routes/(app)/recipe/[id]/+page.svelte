@@ -78,8 +78,7 @@
 			</span>
 			<Menu class="p-2">
 				<img slot="btn" class="h-6 w-6" src={menu} />
-				<MenuItem icon={ok} on:click={() => post('/recipe', { recipeId: recipe.id })}>Done</MenuItem
-				>
+				<MenuItem icon={ok} on:click={() => post(`/recipe/${recipe.id}`, {})}>Done</MenuItem>
 				<MenuItem icon={envelope} on:click={async () => await shareModal.open()}>Share</MenuItem>
 				<MenuItem icon={pen} on:click={() => goto(`/edit/${recipe.id}/header`)}>Edit</MenuItem>
 				<MenuItem
