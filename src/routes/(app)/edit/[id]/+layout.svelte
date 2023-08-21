@@ -9,6 +9,19 @@
 					}
 			>
 		>(recipeKey);
+
+	type EditedRecipe = Omit<Recipe, 'id'> & Ingredients & { id?: number };
+
+	function isNotEmpty(recipe: EditedRecipe): boolean {
+		return !(
+			recipe.body.length ||
+			recipe.name ||
+			recipe.description ||
+			recipe.image ||
+			recipe.ingredients.length ||
+			recipe.tags.length
+		);
+	}
 </script>
 
 <script lang="ts">
@@ -36,9 +49,12 @@
 
 	onMount(async () => {
 		if (browser && data.recipe.id == null) {
-			const draft = localStorage.getItem(draftKey);
-			if (draft != null && (await modal.open())) {
-				recipe.set(JSON.parse(draft));
+			const draftStr = localStorage.getItem(draftKey);
+			if (draftStr != null) {
+				const draft: EditedRecipe = JSON.parse(draftStr);
+				if (isNotEmpty(draft) && (await modal.open())) {
+					recipe.set(draft);
+				}
 			}
 		}
 	});

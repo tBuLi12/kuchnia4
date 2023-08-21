@@ -46,7 +46,7 @@ export const POST = (async (event) => {
 	const jwt = await new SignJWT({ client: credentials.client })
 		.setSubject(userId.toString())
 		.setProtectedHeader({ alg: 'HS256' })
-		.setExpirationTime('1h')
+		.setExpirationTime('4d')
 		.sign(secret);
 	cookies.set('token', jwt, { httpOnly: true, secure: true });
 	return json({});

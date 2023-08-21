@@ -5,7 +5,7 @@ import { jwtVerify } from 'jose';
 export async function auth({ cookies, request, url }: RequestEvent): Promise<number> {
 	const token = cookies.get('token');
 	if (!token) {
-		throw error(400, { message: 'not logged in' });
+		throw error(401, { message: 'not logged in' });
 	}
 	const secret = new TextEncoder().encode(JWT_SECRET);
 	try {

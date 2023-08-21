@@ -6,4 +6,4 @@
 	}
 </script>
 
-<img class="aspect-square animate-spin {$$props.class ?? ''}" src={dots} />
+<img class="animate-spin {$$props.class ?? ''}" src={dots} />

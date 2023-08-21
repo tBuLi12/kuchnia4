@@ -13,7 +13,7 @@ export async function post(path: string, data: any): Promise<boolean> {
 		console.log('data: ', JSON.stringify(response.data).slice(0, 200));
 		return response.status === 200;
 	} else {
-		const response = await fetch(`${prefix}/api${path}`, {
+		const response = await fetch(`/api${path}`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {

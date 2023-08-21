@@ -5,6 +5,7 @@
 	import { post } from '../../../../../utils/post';
 	import { getRecipe } from '../+layout.svelte';
 	import { goto } from '$app/navigation';
+	import Button from '../../../../../components/Button.svelte';
 
 	const recipe = getRecipe();
 
@@ -36,11 +37,5 @@
 			$recipe.body = $recipe.body;
 		}}
 	/>
-	<button class="bg-amber-500 text-zinc-800 h-10 px-4 rounded-md self-end" on:click={save}>
-		{#if loading}
-			<img src={dots} class="h-full py-1.5 animate-spin" />
-		{:else}
-			Save
-		{/if}
-	</button>
+	<Button {loading} class="self-end" on:click={save}>Save</Button>
 </div>

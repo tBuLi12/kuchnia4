@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Input from '../../components/Input.svelte';
 	import muffin from '../../assets/muffin.svg';
-	import type { PageData } from './$types';
 	import Button from '../../components/Button.svelte';
 	import { post } from '../../utils/post';
 	import { goto } from '$app/navigation';
@@ -13,11 +12,12 @@
 	let loading = false;
 
 	async function logIn() {
+		invalidCredentials = false;
 		loading = true;
 		const ok = await post('/login', {
 			email,
 			password,
-			client: import.meta.env.ADAPTER === 'static' ? 'mobile' : 'web'
+			client: import.meta.env.VITE_SK_ADAPTER === 'static' ? 'mobile' : 'web'
 		});
 		loading = false;
 		if (ok) {
@@ -38,13 +38,7 @@
 >
 	<Input class="h-12" placeholder="Email" bind:value={email} />
 	<Input class="h-12" placeholder="Password" type="password" bind:value={password} />
-	<Button type="submit" class="self-end">
-		{#if loading}
-			<Spinner />
-		{:else}
-			Log in
-		{/if}
-	</Button>
+	<Button type="submit" class="self-end" {loading}>Log in</Button>
 	{#if invalidCredentials}
 		invalid credentials
 	{/if}

@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import menu from '../../../../assets/menu.svg';
 	import bin from '../../../../assets/bin.svg';
+	import ok from '../../../../assets/ok.svg';
 	import envelope from '../../../../assets/envelope.svg';
 	import pen from '../../../../assets/pen.svg';
 	import SelectList from '../../list/SelectList.svelte';
@@ -12,12 +13,13 @@
 	import SecondaryButton from '../../../../components/SecondaryButton.svelte';
 	import Input from '../../../../components/Input.svelte';
 	import { goto } from '$app/navigation';
+	import Menu from '../../../../components/Menu.svelte';
+	import MenuItem from '../../../../components/MenuItem.svelte';
 
 	export let data: PageData;
 
 	const recipe = data.recipe;
 
-	let menuIsOpen = false;
 	let deleteModal: Modal<boolean>;
 	let shareModal: Modal<string>;
 	let selectedIngredients = new Set<string>();
@@ -74,35 +76,19 @@
 				<div class="h-6 w-6 rounded-full bg-amber-500" />
 				{recipe.name}
 			</span>
-			<button class="p-2" on:click={() => (menuIsOpen = !menuIsOpen)}
-				><img class="h-6 w-6" src={menu} /></button
-			>
-			{#if menuIsOpen}
-				<div
-					class="text-lg absolute flex flex-col mt-4 mx-3 shadow-menu rounded-lg bg-zinc-900 top-full right-0 overflow-hidden"
+			<Menu class="p-2">
+				<img slot="btn" class="h-6 w-6" src={menu} />
+				<MenuItem icon={ok} on:click={() => post('/recipe', { recipeId: recipe.id })}>Done</MenuItem
 				>
-					<!-- {#if recipe.isOwned}
-						<a href="/edit/{recipe.id}/header" class="py-1 border-b border-zinc-500">Edit recipe</a>
-						<button class="py-1 text-red-600">Delete recipe</button>
-					{/if} -->
-
-					<button
-						class="flex items-center py-2 px-4 hover:bg-zinc-800 gap-3 border-zinc-500"
-						on:click={async () => await shareModal.open()}
-						><img class="h-6 w-6" src={envelope} />Share</button
-					>
-					<button
-						class="flex items-center py-2 px-4 hover:bg-zinc-800 gap-3 border-zinc-500"
-						on:click={() => goto(`/edit/${recipe.id}/header`)}
-						><img class="h-6 w-6" src={pen} />Edit</button
-					>
-					<button
-						class="flex items-center py-2 px-4 hover:bg-zinc-800 text-red-600 gap-3 border-zinc-500"
-						on:click={async () => (await deleteModal.open()) && (await _delete('/edit', {}))}
-						><img class="h-6 w-6" src={bin} />Delete</button
-					>
-				</div>
-			{/if}
+				<MenuItem icon={envelope} on:click={async () => await shareModal.open()}>Share</MenuItem>
+				<MenuItem icon={pen} on:click={() => goto(`/edit/${recipe.id}/header`)}>Edit</MenuItem>
+				<MenuItem
+					class="text-red-600"
+					icon={bin}
+					on:click={async () => (await deleteModal.open()) && (await _delete('/edit', {}))}
+					>Delete</MenuItem
+				>
+			</Menu>
 		</div>
 	</div>
 	<div class="flex flex-col border-t border-zinc-700">
@@ -133,7 +119,11 @@
 					>
 				</div>
 			</div>
-			<SecondaryButton class="text-md" disabled={!selectedIngredients.size}>
+			<SecondaryButton
+				class="text-md"
+				disabled={!selectedIngredients.size}
+				on:click={addSelectedToList}
+			>
 				add selected to<br />shopping list
 			</SecondaryButton>
 		</div>

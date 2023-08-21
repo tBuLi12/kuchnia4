@@ -26,14 +26,14 @@ const postRecipe = z.strictObject({
 });
 
 export const POST = (async (event) => {
-	const result = postRecipe.safeParse(await request.json());
+	const result = postRecipe.safeParse(await event.request.json());
 	if (!result.success) {
 		console.log('invalid shape', result.error);
 		throw error(400, 'invalid shape');
 	}
 	const recipe = result.data;
 
-	const user = await auth(cookies);
+	const user = await auth(event);
 
 	if (recipe.id !== undefined) {
 		await updateRecipe(user, recipe as Recipe & Ingredients);

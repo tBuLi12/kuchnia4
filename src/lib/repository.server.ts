@@ -373,3 +373,12 @@ export async function registerUser(email: string, password: string): Promise<voi
 
 	await db.sql`INSERT INTO users(email, passhash) VALUES (${email}, ${salt + keyString})`;
 }
+
+export async function doRecipe(userId: number, recipeId: number): Promise<void> {
+	await db.sql`
+		UPDATE recipe_views
+		SET last_made = NOW()
+		WHERE user_id = ${userId}
+			AND recipe_id = ${recipeId}
+	`;
+}
