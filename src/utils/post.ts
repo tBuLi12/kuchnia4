@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import { CapacitorHttp } from '@capacitor/core';
 
-const prefix = 'https://kuchnia4-git-dev-tbuli1112-gmailcom.vercel.app';
+const prefix = 'https://kuchnia4.vercel.app';
 
 export async function post(path: string, data: any): Promise<boolean> {
 	if (import.meta.env.VITE_SK_ADAPTER === 'static') {
@@ -10,7 +10,6 @@ export async function post(path: string, data: any): Promise<boolean> {
 			data,
 			headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
 		});
-		console.log('data: ', JSON.stringify(response.data).slice(0, 200));
 		return response.status === 200;
 	} else {
 		const response = await fetch(`/api${path}`, {

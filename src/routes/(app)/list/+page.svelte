@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { toasts } from '../../../components/Toasts.svelte';
 	import { _delete, post } from '../../../utils/post';
 	import type { PageData } from './$types';
 	import ListView from './ListView.svelte';
@@ -8,13 +9,22 @@
 
 <ListView
 	list={data.list}
-	on:add={({ detail: ingredient }) => {
-		post('/list', [ingredient]);
+	on:add={async ({ detail: ingredient }) => {
+		const ok = await post('/list', [ingredient]);
+		if (!ok) {
+			toasts.show(`There was an error when adding ${ingredient.name}`);
+		}
 	}}
-	on:remove={({ detail: ingredient }) => {
-		_delete('/list', [ingredient]);
+	on:remove={async ({ detail: ingredient }) => {
+		const ok = await _delete('/list', [ingredient]);
+		if (!ok) {
+			toasts.show(`There was an error when adding ${ingredient}`);
+		}
 	}}
-	on:update={({ detail: ingredient }) => {
-		post('/list', [ingredient]);
+	on:update={async ({ detail: ingredient }) => {
+		const ok = await post('/list', [ingredient]);
+		if (!ok) {
+			toasts.show(`There was an error when adding ${ingredient.name}`);
+		}
 	}}
 />

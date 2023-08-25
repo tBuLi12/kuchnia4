@@ -36,6 +36,7 @@
 	import SecondaryButton from '../../../../components/SecondaryButton.svelte';
 	import type { Ingredients, Recipe } from '$lib/repository.server';
 	import { writable, type Writable } from 'svelte/store';
+	import { setupForm } from '../../../../components/Input.svelte';
 
 	const stepNames = ['header', 'ingredients', 'body'];
 	const draftKey = 'recipe-draft';
@@ -46,6 +47,7 @@
 
 	const recipe = writable(data.recipe);
 	setContext(recipeKey, recipe);
+	setupForm();
 
 	onMount(async () => {
 		if (browser && data.recipe.id == null) {

@@ -21,7 +21,6 @@ export const POST = (async (event) => {
 
 	const result = postLogin.safeParse(data);
 	if (!result.success) {
-		console.log('invalid shape', result.error);
 		throw error(400, 'invalid shape');
 	}
 

@@ -11,6 +11,7 @@
 	import MenuItem from '../../components/MenuItem.svelte';
 	import { post } from '../../utils/post';
 	import { goto } from '$app/navigation';
+	import { toasts } from '../../components/Toasts.svelte';
 
 	function getRouteHeader(routeId: string | null): string {
 		if (!routeId) {
@@ -30,8 +31,12 @@
 	}
 
 	async function logout() {
-		await post('/logout', {});
-		goto('/login');
+		const ok = await post('/logout', {});
+		if (ok) {
+			goto('/login');
+		} else {
+			toasts.show('There was an error when trying to log you out');
+		}
 	}
 </script>
 

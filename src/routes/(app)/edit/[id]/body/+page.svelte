@@ -1,24 +1,32 @@
 <script lang="ts">
 	import EditStep from './EditStep.svelte';
 	import plus from '../../../../../assets/plus.svg';
-	import dots from '../../../../../assets/dots.svg';
 	import { post } from '../../../../../utils/post';
 	import { getRecipe } from '../+layout.svelte';
 	import { goto } from '$app/navigation';
 	import Button from '../../../../../components/Button.svelte';
+	import { toasts } from '../../../../../components/Toasts.svelte';
+	import { getFormInvalid } from '../../../../../components/Input.svelte';
 
 	const recipe = getRecipe();
+	const formInvalid = getFormInvalid();
 
 	let loading = false;
 
 	async function save() {
+		if (!$recipe.name || !$recipe.description) {
+			formInvalid.set(true);
+			goto(`/edit/${$recipe.id ?? 'new'}/header`);
+			return;
+		}
+
 		loading = true;
 		const ok = await post('/edit', $recipe);
 		loading = false;
 		if (ok) {
 			goto('/home');
 		} else {
-			console.log('dang');
+			toasts.show('There was an error when saving the recipe');
 		}
 	}
 </script>

@@ -2,6 +2,7 @@
 	import { navigating } from '$app/stores';
 	import '../app.css';
 	import dots from '../assets/dots.svg';
+	import Toasts from '../components/Toasts.svelte';
 </script>
 
 <div class="flex flex-col h-screen items-stretch font-nunito text-zinc-300 bg-neutral-900 text-xl">
@@ -12,3 +13,4 @@
 		<img src={dots} class="h-12 animate-spin" />
 	</div>
 {/if}
+<Toasts />

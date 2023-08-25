@@ -15,6 +15,7 @@
 	import { goto } from '$app/navigation';
 	import Menu from '../../../../components/Menu.svelte';
 	import MenuItem from '../../../../components/MenuItem.svelte';
+	import { toasts } from '../../../../components/Toasts.svelte';
 
 	export let data: PageData;
 
@@ -35,6 +36,9 @@
 			'/list',
 			recipe.ingredients.filter((i) => selectedIngredients.has(i.name))
 		);
+		if (!ok) {
+			toasts.show(`There was an error when adding ingredients`);
+		}
 		adding = false;
 	}
 
@@ -78,14 +82,30 @@
 			</span>
 			<Menu class="p-2">
 				<img slot="btn" class="h-6 w-6" src={menu} />
-				<MenuItem icon={ok} on:click={() => post(`/recipe/${recipe.id}`, {})}>Done</MenuItem>
+				<MenuItem
+					icon={ok}
+					on:click={async () => {
+						const ok = await post(`/recipe/${recipe.id}`, {});
+						if (!ok) {
+							toasts.show(`There was an error when marking the recipe as done`);
+						}
+					}}>Done</MenuItem
+				>
 				<MenuItem icon={envelope} on:click={async () => await shareModal.open()}>Share</MenuItem>
 				<MenuItem icon={pen} on:click={() => goto(`/edit/${recipe.id}/header`)}>Edit</MenuItem>
 				<MenuItem
 					class="text-red-600"
 					icon={bin}
-					on:click={async () => (await deleteModal.open()) && (await _delete('/edit', {}))}
-					>Delete</MenuItem
+					on:click={async () => {
+						const confirmed = await deleteModal.open();
+						if (!confirmed) {
+							return;
+						}
+						const ok = await _delete('/edit', {});
+						if (!ok) {
+							toasts.show(`There was an error when deleting the recipe`);
+						}
+					}}>Delete</MenuItem
 				>
 			</Menu>
 		</div>
