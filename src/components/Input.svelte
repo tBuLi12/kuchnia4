@@ -32,11 +32,11 @@
 	}
 
 	const classes = $$props['class'];
-	$: invalid = $$props['non-empty'] && !value && (dirty || formInvalid);
+	$: invalid = $$props['non-empty'] && !value && (dirty || $formInvalid);
 </script>
 
 <div class="contents relative">
-	{#if invalid && formInvalid}
+	{#if invalid && $formInvalid}
 		<span class="absolute bottom-full text-red-500 text-sm">{invalidHint}</span>
 	{/if}
 	<input

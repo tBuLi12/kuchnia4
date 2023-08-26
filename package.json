@@ -14,6 +14,8 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
+		"@capacitor/assets": "^2.0.4",
+		"@capacitor/cli": "^5.3.0",
 		"@sveltejs/adapter-auto": "^1.0.0",
 		"@sveltejs/adapter-node": "^1.3.1",
 		"@sveltejs/adapter-static": "^2.0.3",
@@ -38,9 +40,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@capacitor-community/http": "^1.4.1",
 		"@capacitor/android": "^5.2.3",
-		"@capacitor/cli": "^5.2.3",
 		"@capacitor/core": "^5.2.3",
 		"@vercel/postgres": "^0.4.1",
 		"crypto-js": "^4.1.1",
