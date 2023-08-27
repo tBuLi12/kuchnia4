@@ -5,6 +5,8 @@
 	import Button from '../../../components/Button.svelte';
 	import SecondaryButton from '../../../components/SecondaryButton.svelte';
 	import Spinner from '../../../components/Spinner.svelte';
+	import noImage from '../assets/no-image.svg';
+	import { setInvalidImage } from '../../../utils/invalidImage';
 
 	const dispatch = createEventDispatcher<{ reject: never; accept: never }>();
 
@@ -31,7 +33,7 @@
 			>Dismiss</button
 		>
 	</div>
-	<img src={share.image} class="rounded-xl h-28 md:h-32" />
+	<img src={share.image ?? noImage} on:error={setInvalidImage} class="rounded-xl h-28 md:h-32" />
 	{#if tapped}
 		<div
 			class="bg-zinc-800/80 absolute inset-0 flex justify-center gap-8 items-center md:hidden"

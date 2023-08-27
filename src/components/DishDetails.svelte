@@ -1,7 +1,9 @@
 <script lang="ts">
 	import clock from '../assets/clock.svg';
 	import arrow from '../assets/arrow_orange.svg';
+	import noImage from '../assets/no-image.png';
 	import type { Recipe } from '$lib/repository.server';
+	import { setInvalidImage } from '../utils/invalidImage';
 
 	export let recipe: Recipe;
 </script>
@@ -31,7 +33,8 @@
 		</div>
 	</div>
 	<img
-		src={recipe.image}
+		src={recipe.image ?? noImage}
+		on:error={setInvalidImage}
 		class="w-full -mb-8 lg:mb-0 min-w-0 bg-img object-cover object-center basis-0 grow min-h-0 lg:rounded-xl rounded-2xl"
 	/>
 </div>

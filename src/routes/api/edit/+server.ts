@@ -15,7 +15,7 @@ const postRecipe = z.strictObject({
 		})
 	),
 	tags: z.array(z.string()),
-	image: z.string().nullable(),
+	image: z.string().nonempty().nullable(),
 	ingredients: z.array(
 		z.strictObject({
 			name: z.string(),

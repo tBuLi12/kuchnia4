@@ -16,6 +16,8 @@
 	import Menu from '../../../../components/Menu.svelte';
 	import MenuItem from '../../../../components/MenuItem.svelte';
 	import { toasts } from '../../../../components/Toasts.svelte';
+	import { setInvalidBackgroundImage } from '../../../../utils/invalidImage';
+	import noImage from '../../../../assets/no-image.png';
 
 	export let data: PageData;
 
@@ -72,8 +74,9 @@
 </Modal>
 <div class="flex flex-col h-full overflow-auto">
 	<div
-		style="background-image: url({recipe.image});"
+		style="background-image: url({recipe.image ?? noImage});"
 		class="relative flex items-start bg-cover bg-center min-h-[10rem] after:shadow-main-img2 after:absolute after:content-[''] after:inset-0"
+		on:error|self={setInvalidBackgroundImage}
 	>
 		<div class="relative z-20 flex items-center justify-between w-full text-neutral-200 pt-1 px-2">
 			<span class="flex items-center gap-2 text-2xl drop">

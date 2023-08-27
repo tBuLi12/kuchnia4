@@ -26,7 +26,7 @@
 			class="min-w-0 pl-2 h-10"
 			placeholder="to an image"
 			value={$recipe.image ?? ''}
-			on:change={(evt) => ($recipe.image = evt.currentTarget.value ?? null)}
+			on:change={(evt) => ($recipe.image = evt.currentTarget.value || null)}
 		/>
 	</div>
 	<Button on:click={() => goto(`/edit/${$recipe.id ?? 'new'}/ingredients`)} class="self-end"
