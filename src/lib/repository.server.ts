@@ -5,14 +5,14 @@ import crypto from 'crypto-js';
 export interface Recipe {
 	id: number;
 	name: string;
-	description: string;
+	description: string | null;
 	body: { name: string; body: string }[];
 	tags: string[];
 	image: string | null;
 }
 
 export interface TimeTracked {
-	lastMade: Date | null;
+	lastMade: string | null;
 }
 
 export interface Ingredient {
@@ -138,7 +138,6 @@ export async function getUsersListItems(user_id: number): Promise<Ingredient[]> 
 		FROM list_items 
         WHERE user_id = ${user_id}
 	`;
-	console.log(ingredients.rows);
 	return ingredients.rows;
 }
 
@@ -207,7 +206,6 @@ export async function updateRecipe(
 			owner: number;
 		}>`SELECT owner FROM recipes WHERE recipe_id = ${recipe.id}`;
 		if (ownerId.rows[0]?.owner !== user_id) {
-			console.log('not owned', ownerId.rows[0], user_id);
 			await client.sql`ROLLBACK`;
 			client.release();
 			return false;
@@ -368,8 +366,17 @@ export async function registerUser(email: string, password: string): Promise<voi
 	const keyString = key.toString();
 	const saltString = salt.toString();
 	if (keyString.length != 64 || saltString.length != 64) {
-		throw error(500, `length is wrong ${keyString.length}, ${saltString.length}`);
+		throw error(500, `length is wrong`);
 	}
 
 	await db.sql`INSERT INTO users(email, passhash) VALUES (${email}, ${salt + keyString})`;
+}
+
+export async function doRecipe(userId: number, recipeId: number): Promise<void> {
+	await db.sql`
+		UPDATE recipe_views
+		SET last_made = NOW()
+		WHERE user_id = ${userId}
+			AND recipe_id = ${recipeId}
+	`;
 }

@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import exit from '../../assets/exit.svg';
 	import profile from '../../assets/profile.svg';
 	import envelope from '../../assets/envelope.svg';
 	import pen from '../../assets/pen.svg';
 	import muffin from '../../assets/muffin.svg';
 	import list from '../../assets/list.svg';
 	import NavIcon from '../../components/NavIcon.svelte';
+	import Menu from '../../components/Menu.svelte';
+	import MenuItem from '../../components/MenuItem.svelte';
+	import { post } from '../../utils/post';
+	import { goto } from '$app/navigation';
+	import { toasts } from '../../components/Toasts.svelte';
 
 	function getRouteHeader(routeId: string | null): string {
 		if (!routeId) {
@@ -23,6 +29,15 @@
 		}
 		return '';
 	}
+
+	async function logout() {
+		const ok = await post('/logout', {});
+		if (ok) {
+			goto('/login');
+		} else {
+			toasts.show('There was an error when trying to log you out');
+		}
+	}
 </script>
 
 <div class="flex flex-col grow basis-0 overflow-auto max-w-5xl mx-auto items-stretch w-full">
@@ -32,7 +47,10 @@
 				<div class="h-7 w-7 rounded-full bg-amber-500" />
 				{getRouteHeader($page.route.id)}
 			</div>
-			<img src={profile} class="h-6" />
+			<Menu>
+				<img slot="btn" src={profile} class="h-6" />
+				<MenuItem icon={exit} on:click={logout}>Log out</MenuItem>
+			</Menu>
 		</div>
 	{/if}
 	<slot />

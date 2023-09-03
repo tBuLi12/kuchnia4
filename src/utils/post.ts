@@ -4,11 +4,11 @@ import { CapacitorHttp } from '@capacitor/core';
 const prefix = 'https://kuchnia4.vercel.app';
 
 export async function post(path: string, data: any): Promise<boolean> {
-	if (import.meta.env.ADAPTER === 'static') {
+	if (import.meta.env.VITE_SK_ADAPTER === 'static') {
 		const response = await CapacitorHttp.post({
 			url: `${prefix}/api${path}`,
 			data,
-			headers: { Accept: 'application/json' }
+			headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
 		});
 		return response.status === 200;
 	} else {
@@ -16,7 +16,7 @@ export async function post(path: string, data: any): Promise<boolean> {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {
-				'Conent-Type': 'application/json',
+				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			}
 		});
@@ -25,11 +25,11 @@ export async function post(path: string, data: any): Promise<boolean> {
 }
 
 export async function _delete(path: string, data: any): Promise<boolean> {
-	if (import.meta.env.ADAPTER === 'static') {
+	if (import.meta.env.VITE_SK_ADAPTER === 'static') {
 		const response = await CapacitorHttp.delete({
 			url: `${prefix}/api${path}`,
 			data,
-			headers: { Accept: 'application/json' }
+			headers: { Accept: 'application/json', 'Content-Type': 'application/json' }
 		});
 
 		return response.status === 200;
@@ -38,7 +38,7 @@ export async function _delete(path: string, data: any): Promise<boolean> {
 			method: 'DELETE',
 			body: JSON.stringify(data),
 			headers: {
-				'Conent-Type': 'application/json',
+				'Content-Type': 'application/json',
 				Accept: 'application/json'
 			}
 		});
@@ -50,7 +50,7 @@ export async function use<T>(
 	fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>,
 	path: RequestInfo | URL
 ): Promise<T> {
-	if (import.meta.env.ADAPTER === 'static') {
+	if (import.meta.env.VITE_SK_ADAPTER === 'static') {
 		const response = await CapacitorHttp.get({
 			url: `${prefix}/api${path}`,
 			headers: { Accept: 'application/json' }
@@ -70,7 +70,7 @@ export async function use<T>(
 		try {
 			data = await response.json();
 		} catch (e) {
-			throw error(400, 'invalid response format');
+			throw error(400, `invalid response format`);
 		}
 		if (response.ok) {
 			return data;

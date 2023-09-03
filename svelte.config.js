@@ -10,7 +10,9 @@ const config = {
 
 	kit: {
 		adapter:
-			process.env.ADAPTER === 'static' ? adapterStatic({ fallback: 'index.html' }) : adapterAuto(),
+			process.env.VITE_SK_ADAPTER === 'static'
+				? adapterStatic({ fallback: 'index.html' })
+				: adapterAuto(),
 		csrf: { checkOrigin: false }
 	}
 };

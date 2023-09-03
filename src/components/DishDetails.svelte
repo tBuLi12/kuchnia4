@@ -1,7 +1,9 @@
 <script lang="ts">
 	import clock from '../assets/clock.svg';
 	import arrow from '../assets/arrow_orange.svg';
+	import noImage from '../assets/no-image.png';
 	import type { Recipe } from '$lib/repository.server';
+	import { setInvalidImage } from '../utils/invalidImage';
 
 	export let recipe: Recipe;
 </script>
@@ -13,14 +15,18 @@
 		class="w-full z-10 flex flex-col px-6 bg-neutral-900 lg:bg-transparent lg:w-1/2 rounded-t-3xl lg:rounded-none"
 	>
 		<div class="flex gap-1 items-center px-1 mt-4 mb-2 pb-2 text-2xl border-b border-zinc-600">
-			Le Chicken
-			<img src={clock} class="ml-auto w-5" /> <span class="text-xl">1.5h</span>
+			{recipe.name}
+			<img src={clock} class="ml-auto w-5" /> <span class="text-xl">?</span>
 		</div>
 		<div class="px-1 text-zinc-300 max-h-48 overflow-auto">
-			chicken thighs coocked in smoky rub and maple sirup chicken thighs coocked in smoky rub and
+			{#if recipe.description}
+				{recipe.description}
+			{:else}
+				No description
+			{/if}
 		</div>
 		<div class="flex flex-wrap my-2 mb-4 items-end lg:mt-auto">
-			{#each ['fast', 'dinner', 'dinner', 'dinner', 'dinner'] as tag}
+			{#each recipe.tags as tag}
 				<div class="border border-yellow-800 rounded-full text-lg m-1 px-3 text-yellow-600">
 					{tag}
 				</div>
@@ -29,10 +35,10 @@
 				><img src={arrow} /></a
 			>
 		</div>
-		<!-- <div class="border-t border-zinc-600" /> -->
 	</div>
 	<img
-		src={recipe.image}
+		src={recipe.image ?? noImage}
+		on:error={setInvalidImage}
 		class="w-full -mb-8 lg:mb-0 min-w-0 bg-img object-cover object-center basis-0 grow min-h-0 lg:rounded-xl rounded-2xl"
 	/>
 </div>

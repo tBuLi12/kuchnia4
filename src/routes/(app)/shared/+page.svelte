@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import Share from './Share.svelte';
 	import type { Share as ShareData } from '$lib/repository.server';
+	import { toasts } from '../../../components/Toasts.svelte';
 
 	export let data: PageData;
 
@@ -17,6 +18,8 @@
 		processing.delete(share);
 		if (ok) {
 			shares = shares.filter((s) => s !== share);
+		} else {
+			toasts.show(`There was an error when processing share`);
 		}
 	}
 </script>

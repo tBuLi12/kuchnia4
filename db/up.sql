@@ -7,7 +7,7 @@ CREATE TABLE users (
 CREATE TABLE recipes (
 	recipe_id serial PRIMARY KEY NOT NULL,
 	name text NOT NULL,
-	description text NOT NULL,
+	description text,
 	body json NOT NULL,
 	tags text[] NOT NULL,
 	image text,

@@ -3,6 +3,7 @@
 	import type { PageData } from './$types';
 	import menu from '../../../../assets/menu.svg';
 	import bin from '../../../../assets/bin.svg';
+	import ok from '../../../../assets/ok.svg';
 	import envelope from '../../../../assets/envelope.svg';
 	import pen from '../../../../assets/pen.svg';
 	import SelectList from '../../list/SelectList.svelte';
@@ -12,12 +13,16 @@
 	import SecondaryButton from '../../../../components/SecondaryButton.svelte';
 	import Input from '../../../../components/Input.svelte';
 	import { goto } from '$app/navigation';
+	import Menu from '../../../../components/Menu.svelte';
+	import MenuItem from '../../../../components/MenuItem.svelte';
+	import { toasts } from '../../../../components/Toasts.svelte';
+	import { setInvalidBackgroundImage } from '../../../../utils/invalidImage';
+	import noImage from '../../../../assets/no-image.png';
 
 	export let data: PageData;
 
 	const recipe = data.recipe;
 
-	let menuIsOpen = false;
 	let deleteModal: Modal<boolean>;
 	let shareModal: Modal<string>;
 	let selectedIngredients = new Set<string>();
@@ -33,6 +38,9 @@
 			'/list',
 			recipe.ingredients.filter((i) => selectedIngredients.has(i.name))
 		);
+		if (!ok) {
+			toasts.show(`There was an error when adding ingredients`);
+		}
 		adding = false;
 	}
 
@@ -66,43 +74,43 @@
 </Modal>
 <div class="flex flex-col h-full overflow-auto">
 	<div
-		style="background-image: url({recipe.image});"
+		style="background-image: url({recipe.image ?? noImage});"
 		class="relative flex items-start bg-cover bg-center min-h-[10rem] after:shadow-main-img2 after:absolute after:content-[''] after:inset-0"
+		on:error|self={setInvalidBackgroundImage}
 	>
 		<div class="relative z-20 flex items-center justify-between w-full text-neutral-200 pt-1 px-2">
 			<span class="flex items-center gap-2 text-2xl drop">
 				<div class="h-6 w-6 rounded-full bg-amber-500" />
 				{recipe.name}
 			</span>
-			<button class="p-2" on:click={() => (menuIsOpen = !menuIsOpen)}
-				><img class="h-6 w-6" src={menu} /></button
-			>
-			{#if menuIsOpen}
-				<div
-					class="text-lg absolute flex flex-col mt-4 mx-3 shadow-menu rounded-lg bg-zinc-900 top-full right-0 overflow-hidden"
+			<Menu class="p-2">
+				<img slot="btn" class="h-6 w-6" src={menu} />
+				<MenuItem
+					icon={ok}
+					on:click={async () => {
+						const ok = await post(`/recipe/${recipe.id}`, {});
+						if (!ok) {
+							toasts.show(`There was an error when marking the recipe as done`);
+						}
+					}}>Done</MenuItem
 				>
-					<!-- {#if recipe.isOwned}
-						<a href="/edit/{recipe.id}/header" class="py-1 border-b border-zinc-500">Edit recipe</a>
-						<button class="py-1 text-red-600">Delete recipe</button>
-					{/if} -->
-
-					<button
-						class="flex items-center py-2 px-4 hover:bg-zinc-800 gap-3 border-zinc-500"
-						on:click={async () => await shareModal.open()}
-						><img class="h-6 w-6" src={envelope} />Share</button
-					>
-					<button
-						class="flex items-center py-2 px-4 hover:bg-zinc-800 gap-3 border-zinc-500"
-						on:click={() => goto(`/edit/${recipe.id}/header`)}
-						><img class="h-6 w-6" src={pen} />Edit</button
-					>
-					<button
-						class="flex items-center py-2 px-4 hover:bg-zinc-800 text-red-600 gap-3 border-zinc-500"
-						on:click={async () => (await deleteModal.open()) && (await _delete('/edit', {}))}
-						><img class="h-6 w-6" src={bin} />Delete</button
-					>
-				</div>
-			{/if}
+				<MenuItem icon={envelope} on:click={async () => await shareModal.open()}>Share</MenuItem>
+				<MenuItem icon={pen} on:click={() => goto(`/edit/${recipe.id}/header`)}>Edit</MenuItem>
+				<MenuItem
+					class="text-red-600"
+					icon={bin}
+					on:click={async () => {
+						const confirmed = await deleteModal.open();
+						if (!confirmed) {
+							return;
+						}
+						const ok = await _delete('/edit', {});
+						if (!ok) {
+							toasts.show(`There was an error when deleting the recipe`);
+						}
+					}}>Delete</MenuItem
+				>
+			</Menu>
 		</div>
 	</div>
 	<div class="flex flex-col border-t border-zinc-700">
@@ -133,7 +141,11 @@
 					>
 				</div>
 			</div>
-			<SecondaryButton class="text-md" disabled={!selectedIngredients.size}>
+			<SecondaryButton
+				class="text-md"
+				disabled={!selectedIngredients.size}
+				on:click={addSelectedToList}
+			>
 				add selected to<br />shopping list
 			</SecondaryButton>
 		</div>

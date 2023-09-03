@@ -5,8 +5,8 @@ import { auth } from '../../../utils/auth.server';
 import { updateRecipe, type Ingredients, type Recipe, addRecipe } from '$lib/repository.server';
 
 const postRecipe = z.strictObject({
-	name: z.string(),
-	description: z.string(),
+	name: z.string().nonempty(),
+	description: z.string().nonempty(),
 	id: z.number().optional(),
 	body: z.array(
 		z.strictObject({
@@ -15,7 +15,7 @@ const postRecipe = z.strictObject({
 		})
 	),
 	tags: z.array(z.string()),
-	image: z.string().nullable(),
+	image: z.string().nonempty().nullable(),
 	ingredients: z.array(
 		z.strictObject({
 			name: z.string(),
@@ -26,14 +26,13 @@ const postRecipe = z.strictObject({
 });
 
 export const POST = (async (event) => {
-	const result = postRecipe.safeParse(await request.json());
+	const result = postRecipe.safeParse(await event.request.json());
 	if (!result.success) {
-		console.log('invalid shape', result.error);
 		throw error(400, 'invalid shape');
 	}
 	const recipe = result.data;
 
-	const user = await auth(cookies);
+	const user = await auth(event);
 
 	if (recipe.id !== undefined) {
 		await updateRecipe(user, recipe as Recipe & Ingredients);

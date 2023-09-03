@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
 	export function parseIngredient(text: string): Ingredient | undefined {
-		const pattern = /^(?<name>[A-Za-z]+)\s*((?<quantity>\d+)\s*((?<unit>[A-Za-z]+)\s*)?)?$/u;
+		const pattern =
+			/^\s*(?<name>[A-Za-z]([A-Za-z]|\s)*)((?<quantity>\d+)\s*((?<unit>[A-Za-z]+)\s*)?)?$/u;
 		const match = text.match(pattern);
 		if (!match) {
 			return;
@@ -8,7 +9,7 @@
 
 		if (match.groups) {
 			return {
-				name: match.groups['name'],
+				name: match.groups['name'].trim(),
 				unit: match.groups['unit'] ?? null,
 				quantity: parseInt(match.groups['quantity']) ?? 1
 			};
@@ -51,7 +52,6 @@
 		}
 
 		items.push(currentIngredient);
-		console.log(currentIngredient);
 		items = items;
 		nameToAdd = '';
 
