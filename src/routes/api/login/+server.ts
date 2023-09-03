@@ -2,6 +2,7 @@ import { getPasswordHashAndId } from '$lib/repository.server';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import crypto from 'crypto-js';
 import { z } from 'zod';
+import { setToken } from '../../../utils/auth.server';
 
 const postLogin = z.strictObject({
 	email: z.string(),
@@ -40,13 +41,7 @@ export const POST = (async (event) => {
 		throw error(401, 'invalid credentials');
 	}
 
-	const secret = new TextEncoder().encode(JWT_SECRET);
+	await setToken(cookies, credentials.client, userId);
 
-	const jwt = await new SignJWT({ client: credentials.client })
-		.setSubject(userId.toString())
-		.setProtectedHeader({ alg: 'HS256' })
-		.setExpirationTime('4d')
-		.sign(secret);
-	cookies.set('token', jwt, { httpOnly: true, secure: true });
 	return json({});
 }) satisfies RequestHandler;

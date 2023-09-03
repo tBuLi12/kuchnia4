@@ -20,6 +20,7 @@
 	interface $$Props extends HTMLInputAttributes {
 		value?: string;
 		'non-empty'?: boolean;
+		invalidHint?: string | null;
 	}
 
 	interface $$Events {

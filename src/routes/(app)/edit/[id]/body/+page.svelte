@@ -14,7 +14,7 @@
 	let loading = false;
 
 	async function save() {
-		if (!$recipe.name || !$recipe.description) {
+		if (!$recipe.name) {
 			formInvalid.set(true);
 			goto(`/edit/${$recipe.id ?? 'new'}/header`);
 			return;

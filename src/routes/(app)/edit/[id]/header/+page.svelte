@@ -16,8 +16,8 @@
 		<TextArea
 			class="min-w-0 pl-2 py-2 min-h-[6rem]"
 			placeholder="Describe your dish in one sentence"
-			multiple
-			bind:value={$recipe.description}
+			value={$recipe.description ?? ''}
+			on:change={(evt) => ($recipe.description = evt.currentTarget.value || null)}
 		/>
 	</div>
 	<div class="flex flex-col gap-4 border-b border-zinc-600 pb-4 lg:grow">

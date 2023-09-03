@@ -5,7 +5,7 @@
 	import Button from '../../../components/Button.svelte';
 	import SecondaryButton from '../../../components/SecondaryButton.svelte';
 	import Spinner from '../../../components/Spinner.svelte';
-	import noImage from '../assets/no-image.svg';
+	import noImage from '../../../assets/no-image.png';
 	import { setInvalidImage } from '../../../utils/invalidImage';
 
 	const dispatch = createEventDispatcher<{ reject: never; accept: never }>();

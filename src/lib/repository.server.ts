@@ -5,7 +5,7 @@ import crypto from 'crypto-js';
 export interface Recipe {
 	id: number;
 	name: string;
-	description: string;
+	description: string | null;
 	body: { name: string; body: string }[];
 	tags: string[];
 	image: string | null;

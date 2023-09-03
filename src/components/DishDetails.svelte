@@ -19,7 +19,11 @@
 			<img src={clock} class="ml-auto w-5" /> <span class="text-xl">?</span>
 		</div>
 		<div class="px-1 text-zinc-300 max-h-48 overflow-auto">
-			{recipe.description}
+			{#if recipe.description}
+				{recipe.description}
+			{:else}
+				No description
+			{/if}
 		</div>
 		<div class="flex flex-wrap my-2 mb-4 items-end lg:mt-auto">
 			{#each recipe.tags as tag}

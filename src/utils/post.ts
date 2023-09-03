@@ -70,7 +70,7 @@ export async function use<T>(
 		try {
 			data = await response.json();
 		} catch (e) {
-			throw error(400, `invalid response format ${import.meta.env.VITE_SK_ADAPTER}`);
+			throw error(400, `invalid response format`);
 		}
 		if (response.ok) {
 			return data;
